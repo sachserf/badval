@@ -11,16 +11,18 @@
 #' @seealso \code{\link{badval_NA}}
 #' @export
 
-add_text_to_vector <-
-    function(the_vector,
-             the_text,
-             override_NA = TRUE,
-             sep = ", ") {
-        the_vector[!is.na(the_vector)][-which(the_vector[!is.na(the_vector)] == the_text)] <-
-            paste0(the_vector[!is.na(the_vector)][-which(the_vector[!is.na(the_vector)] == the_text)], paste0(sep, the_text))
 
-        if (override_NA == TRUE) {
-            the_vector[is.na(the_vector)] <- the_text
-        }
-        return(the_vector)
+add_text_to_vector <-
+  function(the_vector,
+           the_text,
+           override_NA = TRUE,
+           sep = ", ") {
+    the_vector <- as.character(the_vector)
+    the_vector[!is.na(the_vector)][-which(the_vector[!is.na(the_vector)] == the_text)] <-
+      paste0(the_vector[!is.na(the_vector)][-which(the_vector[!is.na(the_vector)] == the_text)], paste0(sep, the_text))
+
+    if (override_NA == TRUE & any(is.na(the_vector))) {
+      the_vector[is.na(the_vector)] <- the_text
     }
+    return(the_vector)
+  }
