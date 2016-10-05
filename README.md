@@ -1,0 +1,2 @@
+# dataman
+Reproducible data manipulation
