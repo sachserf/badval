@@ -15,13 +15,12 @@
 
 badval_NA <- function(data, bad_values) {
     thenames <- names(data)
-    data_out <- data
     for (i in seq_along(thenames)) {
         thebad <- grep(pattern = thenames[i], x = bad_values)
-        if (nrow(data[thebad, i]) > 0) {
-            data_out[thebad, i] <- NA
+        if (length(thebad) > 0) {
+          data[thebad, i] <- NA
         }
     }
-    return(data_out)
+    return(data)
 }
 
