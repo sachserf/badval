@@ -11,16 +11,20 @@
 #' @seealso \code{\link{badval_NA}}
 #' @export
 
-
+# Problem: tausche which gegen grep, da sonst das wort vorkommen kann, sofern auch andere Dinge dort stehen
 add_text_to_vector <-
   function(the_vector,
            the_text,
            override_NA = TRUE,
            sep = ", ") {
-    the_vector <- as.character(the_vector)
-    the_vector[!is.na(the_vector)][-which(the_vector[!is.na(the_vector)] == the_text)] <-
-      paste0(the_vector[!is.na(the_vector)][-which(the_vector[!is.na(the_vector)] == the_text)], paste0(sep, the_text))
-
+      if (length(grep(pattern = the_text, x = the_vector[!is.na(the_vector)])) > 0) {
+          the_vector[!is.na(the_vector)][-grep(pattern = the_text, x = the_vector[!is.na(the_vector)])] <-
+              paste0(the_vector[!is.na(the_vector)][-grep(pattern = the_text, x = the_vector[!is.na(the_vector)])], paste0(sep, the_text))
+      } else {
+          the_vector[!is.na(the_vector)] <-
+              paste0(the_vector[!is.na(the_vector)], paste0(sep, the_text))
+      }
+      
     if (override_NA == TRUE & any(is.na(the_vector))) {
       the_vector[is.na(the_vector)] <- the_text
     }
