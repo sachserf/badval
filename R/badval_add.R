@@ -12,21 +12,21 @@
 #' @export
 
 # Problem: tausche which gegen grep, da sonst das wort vorkommen kann, sofern auch andere Dinge dort stehen
-add_text_to_vector <-
-  function(the_vector,
-           the_text,
+badval_add <-
+  function(bad_vector,
+           bad_value,
            override_NA = TRUE,
-           sep = ", ") {
-      if (length(grep(pattern = the_text, x = the_vector[!is.na(the_vector)])) > 0) {
-          the_vector[!is.na(the_vector)][-grep(pattern = the_text, x = the_vector[!is.na(the_vector)])] <-
-              paste0(the_vector[!is.na(the_vector)][-grep(pattern = the_text, x = the_vector[!is.na(the_vector)])], paste0(sep, the_text))
-      } else {
-          the_vector[!is.na(the_vector)] <-
-              paste0(the_vector[!is.na(the_vector)], paste0(sep, the_text))
-      }
-      
-    if (override_NA == TRUE & any(is.na(the_vector))) {
-      the_vector[is.na(the_vector)] <- the_text
+           separator = ", ") {
+    if (length(grep(pattern = bad_value, x = bad_vector[!is.na(bad_vector)])) > 0) {
+      bad_vector[!is.na(bad_vector)][-grep(pattern = bad_value, x = bad_vector[!is.na(bad_vector)])] <-
+        paste0(bad_vector[!is.na(bad_vector)][-grep(pattern = bad_value, x = bad_vector[!is.na(bad_vector)])], paste0(separator, bad_value))
+    } else {
+      bad_vector[!is.na(bad_vector)] <-
+        paste0(bad_vector[!is.na(bad_vector)], paste0(separator, bad_value))
     }
-    return(the_vector)
+
+    if (override_NA == TRUE & any(is.na(bad_vector))) {
+      bad_vector[is.na(bad_vector)] <- bad_value
+    }
+    return(bad_vector)
   }
