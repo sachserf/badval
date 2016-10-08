@@ -11,22 +11,45 @@
 #' @seealso \code{\link{badval_NA}}
 #' @export
 
-# Problem: tausche which gegen grep, da sonst das wort vorkommen kann, sofern auch andere Dinge dort stehen
 badval_add <-
-  function(bad_vector,
-           bad_value,
+  function(badval_column,
+           bad_row_index,
+           bad_col_name,
            override_NA = TRUE,
-           separator = ", ") {
-    if (length(grep(pattern = bad_value, x = bad_vector[!is.na(bad_vector)])) > 0) {
-      bad_vector[!is.na(bad_vector)][-grep(pattern = bad_value, x = bad_vector[!is.na(bad_vector)])] <-
-        paste0(bad_vector[!is.na(bad_vector)][-grep(pattern = bad_value, x = bad_vector[!is.na(bad_vector)])], paste0(separator, bad_value))
+           separator = ",") {
+    separator_inout <- separator
+    # remove spaces
+    separator <- gsub(pattern = " ", replacement = "", separator)
+    # create bad_vector
+    bad_vector <- badval_column[bad_row_index]
+    # check if bad_col_name already exists
+    badval_split <-
+      strsplit(gsub(pattern = " ", replacement =  "", bad_vector[!is.na(bad_vector)]), separator)
+    df_matches <-
+      data.frame(INDEX = rep(NA, length(badval_split)),
+                 MATCH_BIN = rep(NA, length(badval_split)))
+    for (i in seq_along(badval_split)) {
+      df_matches$INDEX[i] <- i
+      df_matches$MATCH_BIN[i] <-
+        ifelse(length(which(
+          unlist(badval_split[i]) == bad_col_name
+        )) > 0, TRUE, FALSE)
+    }
+    matches <-
+      df_matches$INDEX[which(df_matches$MATCH_BIN == TRUE)]
+    # add bad_col_name
+    if (length(matches) > 0) {
+      bad_vector[!is.na(bad_vector)][-matches] <-
+        paste0(bad_vector[!is.na(bad_vector)][-matches], paste0(separator, bad_col_name))
     } else {
       bad_vector[!is.na(bad_vector)] <-
-        paste0(bad_vector[!is.na(bad_vector)], paste0(separator, bad_value))
+        paste0(bad_vector[!is.na(bad_vector)], paste0(separator_inout, bad_col_name))
     }
-
+    # override NA
     if (override_NA == TRUE & any(is.na(bad_vector))) {
-      bad_vector[is.na(bad_vector)] <- bad_value
+      bad_vector[is.na(bad_vector)] <- bad_col_name
     }
-    return(bad_vector)
+    # return output
+    badval_column[bad_row_index] <- bad_vector
+    return(badval_column)
   }
