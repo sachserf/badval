@@ -1,9 +1,9 @@
-Package: dataman
+Package: badval
 Title: Reproducible data manipulation
-Version: 0.0.0.9000
+Version: 0.0.1.0
 Authors@R: person("Frederik", "Sachser", email = "f.sachser@gmx.at", role = c("aut", "cre"))
 Description: The package should facilitate the process of data manipulation in a
-    reproducible manner.
+    reproducible and traceable manner.
 Depends:
     R (>= 3.3.1)
 License: GPL (>=2)
