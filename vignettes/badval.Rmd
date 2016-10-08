@@ -1,0 +1,136 @@
+---
+title: "Introducing the Bad Value concept"
+author: "Frederik Sachser"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# The background
+Nearly all datasets need to be cleaned due to different issues. If you have a messy dataframe where you need to delete some specific values the bad value concept (respectively the package) can help you to manage the task and keep track of the changes.
+
+I will use the mtcars dataset for illustration. First of all let´s look at the data:
+
+```{r}
+knitr::kable(mtcars)
+```
+
+As you can see the row names contain information about the type of the cars including the company. 
+
+**The following is a thought experiment!**
+
+You get some additional information about the data and now you know that some values of your data are wrong or need to be reviewed: 
+
+- The miles per gallon (mpg) for all cars of Volvo and Mazda are wrong
+- mpg as well as the weight of the car (wt) is wrong for the model Cadillac Fleetwood.
+
+# Data preparation
+
+First of all you want to exclude these values from your data. Let´s create corresponding indices for the rows:
+
+```{r}
+volmaz_row_index <- grep(pattern = "Volvo|Mazda", x = row.names(mtcars))
+
+cadi_row_index <- which(row.names(mtcars) == "Cadillac Fleetwood")
+```
+
+At this point in time the bad value concept comes into play: instead of just deleting the values you might want to keep track of the values that you are going to delete. First of all we need to prepare the dataframe by adding a bad value column. Let´s name it BADVAL.
+
+```{r}
+mtcars$BADVAL <- NA
+```
+
+# Adding bad values
+
+Before we can start we need to load the package "badval":
+
+```{r}
+library(badval)
+```
+
+In order to keep track of the changes we will make we simply write it down: Therefore we need to specify the rows and columns. We can use the row index specified before. For the `volmaz_row_index` the variable `mpg` should be deleted and we need to specify that as follows:
+
+```{r}
+badval_add(badval_column = mtcars$BADVAL, bad_row_index = volmaz_row_index, bad_col_name = "mpg")
+```
+
+Per default the function will only return the `badval_column` and we need to assign it if we want to change our data:
+
+```{r}
+mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = volmaz_row_index, bad_col_name = "mpg")
+```
+
+Same procedure for the Cadillac:
+
+```{r}
+# mpg
+mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "mpg")
+# wt
+mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "wt")
+
+mtcars$BADVAL
+```
+
+Now the data contains a new column with an index of bad values. We can either backup these bad values or directly remove them from the data.
+
+We can remove all bad values at once...
+
+```{r}
+knitr::kable(badval_clean_data(data = mtcars, badval_column = mtcars$BADVAL))
+```
+
+... or specify single variables:
+
+```{r}
+knitr::kable(badval_clean_data(data = mtcars, badval_column = mtcars$BADVAL, badval_exactly = "mpg"))
+```
+
+Again: if you want to save those changes we need to assign them to the original data frame:
+
+```{r}
+mtcars_clean <- badval_clean_data(data = mtcars, badval_column = mtcars$BADVAL)
+```
+
+Of course we can keep the indices of the badval_column after removing the values to remind us what we have deleted (which could be important if you want to keep track of the cleaning process due to traceability).   Nevertheless the function `badval_rm_index` offers the opportunity to remove the index of certain columns. As an example let´s clean the column mpg...
+
+```{r}
+mtcars_clean$BADVAL <- badval_rm_index(badval_column = mtcars_clean$BADVAL, bad_col_name = "mpg")
+```
+... and wt:
+```{r}
+mtcars_clean$BADVAL <- badval_rm_index(badval_column = mtcars_clean$BADVAL, bad_col_name = "wt")
+```
+
+Let´s have a look at the cleaned data frame:
+
+```{r}
+knitr::kable(mtcars_clean)
+```
+
+# summary
+
+We need to prepare our dataset (1 new column) and call 2 different functions in a chronological order to add bad values to an index and remove the values afterwards:
+
+```{r, eval = FALSE}
+# prepare data
+mtcars$BADVAL <- NA
+
+# identify bad values
+volmaz_row_index <- grep(pattern = "Volvo|Mazda", x = row.names(mtcars))
+
+cadi_row_index <- which(row.names(mtcars) == "Cadillac Fleetwood")
+
+# add bad values to the index
+mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = volmaz_row_index, bad_col_name = "mpg")
+# mpg cadi
+mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "mpg")
+# wt cadi
+mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "wt")
+
+# remove bad values --> clean the data
+mtcars_clean <- badval_clean_data(data = mtcars, badval_column = mtcars$BADVAL)
+```
+
