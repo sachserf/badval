@@ -2,15 +2,15 @@
 #'
 #' @description This function will remove cells of a data frame, that have bad
 #'   values.
-#' @param data A data frame.
-#' @param badval_column Character. A Vector of the same length as nrow(data).
-#'   Generally it is meant to be a column of the data where you can specify the
-#'   names of columns that has a bad value in this row. Therefore you do not need to
-#'   delete the cells with bad values in a data frame but specify them in a
-#'   column. If there are multiple bad values per row the column names should be
-#'   separated by comma.
+#' @inheritParams badval_add
+#' @param data A data frame containing a column with an index of bad values.
+#' @param badval_pattern Character. Specify a pattern of bad values to clean
+#'   multiple (but not all) columns of your data frame.
+#' @param badval_exactly Character. Specify an exact string to clean only one
+#'   single column of your data frame.
+#' @return data frame
 #' @author Frederik Sachser
-#' @seealso \code{\link{add_text_to_vector}}
+#' @seealso \code{\link{badval_add}}, \code{\link{badval_rm_index}}
 #' @export
 
 

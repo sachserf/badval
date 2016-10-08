@@ -1,14 +1,22 @@
-#' add text to a vector
+#' Add bad values
 #'
 #' @description This function will add predefined text to a specified vector.
 #'   The special aspect is that it will not repeat the text if it exists.
-#' @param the_vector Specify a vector that should be edited.
-#' @param the_text Character. Specify the text you want to add to your vector.
+#' @param badval_column A vector (or column in a data frame) that serves as an
+#'   index for bad values.
+#' @param bad_row_index Integer. A vector specifying the rows that contain bad
+#'   values.
+#' @param bad_col_name Character. Specify the text you want to add to your
+#'   vector (i.e. the names of columns that contain bad values).
 #' @param override_NA Logical. Choose TRUE if you want to override NA values.
-#' @param sep Character. Specify the separator between the text.
+#' @param separator Character. Specify the separator between the text. It is not
+#'   advisable to use '|'.
+#' @return badval_column
 #' @author Frederik Sachser
-#' @note The idea behind the function is that you can specify a subset of a data frame and add values to it, without overriding existing values. It is meant to prepare a data frame before calling badval_NA.
-#' @seealso \code{\link{badval_NA}}
+#' @note The idea behind the function is that you can specify a subset of a data
+#'   frame and add values to it, without overriding existing values. It is meant
+#'   to prepare the data frame before calling badval_clean_data
+#' @seealso \code{\link{badval_clean_data}}, \code{\link{badval_rm_index}}
 #' @export
 
 badval_add <-
@@ -16,7 +24,7 @@ badval_add <-
            bad_row_index,
            bad_col_name,
            override_NA = TRUE,
-           separator = ",") {
+           separator = ", ") {
     separator_inout <- separator
     # remove spaces
     separator <- gsub(pattern = " ", replacement = "", separator)

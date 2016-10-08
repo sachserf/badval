@@ -1,18 +1,13 @@
-#' Remove bad values from data
+#' Backup bad values
 #'
-#' @description This function will remove cells of a data frame, that have bad
-#'   values.
-#' @param data A data frame.
-#' @param badval_column Character. A Vector of the same length as nrow(data).
-#'   Generally it is meant to be a column of the data where you can specify the
-#'   names of columns that has a bad value in this row. Therefore you do not need to
-#'   delete the cells with bad values in a data frame but specify them in a
-#'   column. If there are multiple bad values per row the column names should be
-#'   separated by comma.
+#' @description This function will backup the specified bad values of a data
+#'   frame.
+#' @inheritParams badval_clean_data
+#' @inheritParams badval_add
+#' @return data frame
 #' @author Frederik Sachser
-#' @seealso \code{\link{add_text_to_vector}}
+#' @seealso \code{\link{badval_restore}}
 #' @export
-
 
 badval_backup <- function(data, badval_column, badval_pattern, badval_exactly) {
   thenames <- names(data)
