@@ -9,8 +9,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# The background
-Nearly all datasets need to be cleaned due to different issues. If you have a messy dataframe where you need to delete some specific values the bad value concept (respectively the package) can help you to manage the task and keep track of the changes.
+# Bad Values
+
+## The background
+Very many datasets need to be cleaned or reviewed because of incorrect entries (i.e. bad values). If you have a messy dataframe where you need to delete some specific values the bad value concept (respectively the package) can help you to manage the task and keep track of the changes.
 
 I will use the mtcars dataset for illustration. First of all let´s look at the data:
 
@@ -27,7 +29,7 @@ You get some additional information about the data and now you know that some va
 - The miles per gallon (mpg) for all cars of Volvo and Mazda are wrong
 - mpg as well as the weight of the car (wt) is wrong for the model Cadillac Fleetwood.
 
-# Data preparation
+## Data preparation
 
 First of all you want to exclude these values from your data. Let´s create corresponding indices for the rows:
 
@@ -43,7 +45,7 @@ At this point in time the bad value concept comes into play: instead of just del
 mtcars$BADVAL <- NA
 ```
 
-# Adding bad values
+## Adding bad values
 
 Before we can start we need to load the package "badval":
 
@@ -110,7 +112,7 @@ Let´s have a look at the cleaned data frame:
 knitr::kable(mtcars_clean)
 ```
 
-# Additional use cases
+## Additional use cases
 
 The functions `badval_backup()` and `badval_restore` offers the opportunity to store the bad values in a separate data frame and restore the values back to the original dataframe where the values have been removed.
 
@@ -160,9 +162,9 @@ mtcars_clean <- mtcars_clean[-c(1:2), ]
 knitr::kable(badval_restore(good_col = "mpg", backup_data = mtcars_badval_backup, cleaned_data = mtcars_clean))
 ```
 
-# summary
+## summary
 
-We need to prepare our dataset (1 new column) and call 2 different functions in a chronological order to add bad values to an index and remove the values afterwards:
+We need to prepare our dataset and call the badval-functions in a chronological order to add bad values to an index and remove the values afterwards:
 
 ```{r, eval = FALSE}
 # prepare data
@@ -170,7 +172,6 @@ mtcars$BADVAL <- NA
 
 # identify bad values
 volmaz_row_index <- grep(pattern = "Volvo|Mazda", x = row.names(mtcars))
-
 cadi_row_index <- which(row.names(mtcars) == "Cadillac Fleetwood")
 
 # add bad values to the index
@@ -180,7 +181,12 @@ mtcars$BADVAL <- badval_add_index(badval_column = mtcars$BADVAL, bad_row_index =
 # wt cadi
 mtcars$BADVAL <- badval_add_index(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "wt")
 
+# backup
+mtcars_badval_backup <- badval_backup(data = mtcars, badval_column = mtcars$BADVAL)
+
 # remove bad values --> clean the data
 mtcars_clean <- badval_rm_data(data = mtcars, badval_column = mtcars$BADVAL)
-```
 
+# restore "good values"
+badval_restore(good_col = "mpg", backup_data = mtcars_badval_backup, cleaned_data = mtcars_clean)
+```
