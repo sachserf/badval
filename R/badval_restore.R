@@ -6,9 +6,9 @@
 #' @param backup_data A data frame containing only bad values and NA.
 #' @param cleaned_data A data frame containing data without bad values
 #' @return data frame
-#' @note The developmental status of this function is beta. Restoring your bad
-#'   values will only work as intended if the order of the rows in your data
-#'   frame has not been changed.
+#' @note The Index will compare and use row.names of both datasets to restore
+#'   the values. Therefore you should not use the function if you manually
+#'   changed the row names of the cleaned data after creating the backup data.
 #' @author Frederik Sachser
 #' @seealso \code{\link{badval_backup}}
 #' @export
@@ -18,8 +18,16 @@ badval_restore <- function(good_col,
                            cleaned_data) {
     if (any(is.na(backup_data[good_col]) == FALSE) == TRUE) {
       vec <- which(is.na(backup_data[good_col]) == FALSE)
-      cleaned_data[good_col][vec, 1] <- backup_data[good_col][vec, 1]
+      ID_backup <- row.names(backup_data[vec, ])
+      ID_cleaned <- grep(pattern = paste(ID_backup, collapse = "|"), x = row.names(cleaned_data))
+      ID_cleaned <- row.names(cleaned_data)[ID_cleaned]
+      ID_missing <- ID_backup[!ID_backup %in% ID_cleaned]
+      ID_backup <- ID_backup[ID_backup %in% ID_cleaned]
+      cleaned_data[grep(pattern = paste(ID_cleaned, collapse = "|"), x = row.names(cleaned_data)), good_col] <- backup_data[grep(pattern = paste(ID_backup, collapse = "|"), x = row.names(backup_data)), good_col]
     }
+  if (length(ID_missing > 0)) {
+    cat("The following rows are missing: ", paste(ID_missing, collapse = ", "))
+  }
   return(cleaned_data)
 }
 

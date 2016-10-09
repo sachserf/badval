@@ -51,25 +51,25 @@ Before we can start we need to load the package "badval":
 library(badval)
 ```
 
-In order to keep track of the changes we will make we simply write it down: Therefore we need to specify the rows and columns. We can use the row index specified before. For the `volmaz_row_index` the variable `mpg` should be deleted and we need to specify that as follows:
+In order to keep track of the changes we simply write them down: Therefore we need to specify the rows and columns. We can use the row index specified before. For the `volmaz_row_index` the variable `mpg` should be deleted and we need to specify that as follows:
 
 ```{r}
-badval_add(badval_column = mtcars$BADVAL, bad_row_index = volmaz_row_index, bad_col_name = "mpg")
+badval_add_index(badval_column = mtcars$BADVAL, bad_row_index = volmaz_row_index, bad_col_name = "mpg")
 ```
 
 Per default the function will only return the `badval_column` and we need to assign it if we want to change our data:
 
 ```{r}
-mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = volmaz_row_index, bad_col_name = "mpg")
+mtcars$BADVAL <- badval_add_index(badval_column = mtcars$BADVAL, bad_row_index = volmaz_row_index, bad_col_name = "mpg")
 ```
 
 Same procedure for the Cadillac:
 
 ```{r}
 # mpg
-mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "mpg")
+mtcars$BADVAL <- badval_add_index(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "mpg")
 # wt
-mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "wt")
+mtcars$BADVAL <- badval_add_index(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "wt")
 
 mtcars$BADVAL
 ```
@@ -79,19 +79,19 @@ Now the data contains a new column with an index of bad values. We can either ba
 We can remove all bad values at once...
 
 ```{r}
-knitr::kable(badval_clean_data(data = mtcars, badval_column = mtcars$BADVAL))
+knitr::kable(badval_rm_data(data = mtcars, badval_column = mtcars$BADVAL))
 ```
 
 ... or specify single variables:
 
 ```{r}
-knitr::kable(badval_clean_data(data = mtcars, badval_column = mtcars$BADVAL, badval_exactly = "mpg"))
+knitr::kable(badval_rm_data(data = mtcars, badval_column = mtcars$BADVAL, badval_exactly = "mpg"))
 ```
 
 Again: if you want to save those changes we need to assign them to the original data frame:
 
 ```{r}
-mtcars_clean <- badval_clean_data(data = mtcars, badval_column = mtcars$BADVAL)
+mtcars_clean <- badval_rm_data(data = mtcars, badval_column = mtcars$BADVAL)
 ```
 
 Of course we can keep the indices of the badval_column after removing the values to remind us what we have deleted (which could be important if you want to keep track of the cleaning process due to traceability).   Nevertheless the function `badval_rm_index` offers the opportunity to remove the index of certain columns. As an example let´s clean the column mpg...
@@ -110,6 +110,56 @@ Let´s have a look at the cleaned data frame:
 knitr::kable(mtcars_clean)
 ```
 
+# Additional use cases
+
+The functions `badval_backup()` and `badval_restore` offers the opportunity to store the bad values in a separate data frame and restore the values back to the original dataframe where the values have been removed.
+
+**First step: backup the bad values**
+
+```{r}
+mtcars_badval_backup <- badval_backup(data = mtcars, badval_column = mtcars$BADVAL)
+
+knitr::kable(mtcars_badval_backup)
+```
+
+**second step: clean the data**
+
+```{r}
+mtcars_clean <- badval_rm_data(data = mtcars, badval_column = mtcars$BADVAL)
+
+knitr::kable(mtcars_clean)
+```
+
+**third step: restore the values for mpg**
+
+```{r}
+knitr::kable(badval_restore(good_col = "mpg", backup_data = mtcars_badval_backup, cleaned_data = mtcars_clean))
+```
+
+If you want to restore multiple columns at once you can write a for loop like this:
+
+```{r}
+mtcars_restored <- mtcars_clean
+
+for (i in c("mpg", "wt")) {
+  mtcars_restored <<-
+  badval_restore(good_col = i,
+  backup_data = mtcars_badval_backup,
+  cleaned_data = mtcars_clean)
+}
+
+knitr::kable(mtcars_restored)
+```
+
+If you deleted some rows of the cleaned data after creating the backup - the values won´t be restored. The function will print the corresponding rownames:
+
+```{r}
+mtcars_restored <- mtcars_clean
+mtcars_clean <- mtcars_clean[-c(1:2), ]
+
+knitr::kable(badval_restore(good_col = "mpg", backup_data = mtcars_badval_backup, cleaned_data = mtcars_clean))
+```
+
 # summary
 
 We need to prepare our dataset (1 new column) and call 2 different functions in a chronological order to add bad values to an index and remove the values afterwards:
@@ -124,13 +174,13 @@ volmaz_row_index <- grep(pattern = "Volvo|Mazda", x = row.names(mtcars))
 cadi_row_index <- which(row.names(mtcars) == "Cadillac Fleetwood")
 
 # add bad values to the index
-mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = volmaz_row_index, bad_col_name = "mpg")
+mtcars$BADVAL <- badval_add_index(badval_column = mtcars$BADVAL, bad_row_index = volmaz_row_index, bad_col_name = "mpg")
 # mpg cadi
-mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "mpg")
+mtcars$BADVAL <- badval_add_index(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "mpg")
 # wt cadi
-mtcars$BADVAL <- badval_add(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "wt")
+mtcars$BADVAL <- badval_add_index(badval_column = mtcars$BADVAL, bad_row_index = cadi_row_index, bad_col_name = "wt")
 
 # remove bad values --> clean the data
-mtcars_clean <- badval_clean_data(data = mtcars, badval_column = mtcars$BADVAL)
+mtcars_clean <- badval_rm_data(data = mtcars, badval_column = mtcars$BADVAL)
 ```
 

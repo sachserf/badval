@@ -26,6 +26,6 @@ This function will remove predefined text from a specified vector.
 Frederik Sachser
 }
 \seealso{
-\code{\link{badval_clean_data}}, \code{\link{badval_add}}
+\code{\link{badval_rm_data}}, \code{\link{badval_add_index}}
 }
 

@@ -16,10 +16,10 @@
 #' @note The idea behind the function is that you can specify a subset of a data
 #'   frame and add values to it, without overriding existing values. It is meant
 #'   to prepare the data frame before calling badval_clean_data
-#' @seealso \code{\link{badval_clean_data}}, \code{\link{badval_rm_index}}
+#' @seealso \code{\link{badval_rm_data}}, \code{\link{badval_rm_index}}
 #' @export
 
-badval_add <-
+badval_add_index <-
   function(badval_column,
            bad_row_index,
            bad_col_name,

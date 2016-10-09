@@ -2,8 +2,8 @@
 #'
 #' @description This function will backup the specified bad values of a data
 #'   frame.
-#' @inheritParams badval_clean_data
-#' @inheritParams badval_add
+#' @inheritParams badval_rm_data
+#' @inheritParams badval_add_index
 #' @return data frame
 #' @author Frederik Sachser
 #' @seealso \code{\link{badval_restore}}

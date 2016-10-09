@@ -1,10 +1,10 @@
 #' Remove bad values from the index
 #'
 #' @description This function will remove predefined text from a specified vector.
-#' @inheritParams badval_add
+#' @inheritParams badval_add_index
 #' @return badval_column
 #' @author Frederik Sachser
-#' @seealso \code{\link{badval_clean_data}}, \code{\link{badval_add}}
+#' @seealso \code{\link{badval_rm_data}}, \code{\link{badval_add_index}}
 #' @export
 
 badval_rm_index <-

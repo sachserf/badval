@@ -21,9 +21,9 @@ This function will backup the specified bad values of a data
   frame.
 }
 \note{
-The developmental status of this function is beta. Restoring your bad
-  values will only work as intended if the order of the rows in your data
-  frame has not been changed.
+The Index will compare and use row.names of both datasets to restore
+  the values. Therefore you should not use the function if you manually
+  changed the row names of the cleaned data after creating the backup data.
 }
 \author{
 Frederik Sachser

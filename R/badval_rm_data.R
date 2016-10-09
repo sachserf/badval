@@ -2,7 +2,7 @@
 #'
 #' @description This function will remove cells of a data frame, that have bad
 #'   values.
-#' @inheritParams badval_add
+#' @inheritParams badval_add_index
 #' @param data A data frame containing a column with an index of bad values.
 #' @param badval_pattern Character. Specify a pattern of bad values to clean
 #'   multiple (but not all) columns of your data frame.
@@ -10,11 +10,11 @@
 #'   single column of your data frame.
 #' @return data frame
 #' @author Frederik Sachser
-#' @seealso \code{\link{badval_add}}, \code{\link{badval_rm_index}}
+#' @seealso \code{\link{badval_add_index}}, \code{\link{badval_rm_index}}
 #' @export
 
 
-badval_clean_data <- function(data, badval_column, badval_pattern, badval_exactly) {
+badval_rm_data <- function(data, badval_column, badval_pattern, badval_exactly) {
   thenames <- names(data)
   if (missing(badval_pattern)) {
     if (missing(badval_exactly)) {
