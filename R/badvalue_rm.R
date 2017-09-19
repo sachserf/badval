@@ -12,7 +12,7 @@
 #' @seealso \code{\link{badindex_add}}, \code{\link{badindex_rm}}
 #' @export
 
-badvalue_rm <- function(data, badindex, badpattern, badstring) {
+badvalue_rm <- function(data, badindex = "BADVAL", badpattern, badstring) {
   badval_column <- data[, badindex]
   thenames <- names(data)
   if (missing(badpattern)) {

@@ -8,7 +8,7 @@
 #' @export
 
 badstring_exist <-
-  function(data, badindex, separator = ", ") {
+  function(data, badindex = "BADVAL", separator = ", ") {
     badval_column <- data[, badindex]
     colnames <- names(data)
     separator <- gsub(" ", "", separator)

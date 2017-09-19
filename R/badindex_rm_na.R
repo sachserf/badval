@@ -8,7 +8,7 @@
 
 badindex_rm_na <-
   function(data,
-           badindex,
+           badindex = "BADVAL",
            badstring = NULL,
            separator = ",") {
     badval_column <- data[, badindex]

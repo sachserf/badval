@@ -26,6 +26,9 @@ badindex_add <-
            badstring,
            override_NA = TRUE,
            separator = ", ") {
+    if (!badindex %in% names(data)) {
+      data[, badindex] <- NA
+    }
     badval_column <- data[, badindex]
     separator_inout <- separator
     # remove spaces

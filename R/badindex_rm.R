@@ -7,22 +7,28 @@
 #' @export
 
 badindex_rm <-
-  function(data, badindex, badstring, separator = ", ") {
+  function(data, subset, badindex = "BADVAL", badstring, separator = ", ") {
     badval_column <- data[, badindex]
     # convert to character
     badval_column <- as.character(badval_column)
     # store for output
     separator_inout <- separator
+    # create bad_vector
+    if (missing(subset)) {
+      bad_vector <- badval_column
+    } else {
+      bad_vector <- badval_column[subset]
+    }
     # remove spaces
     separator <- gsub(pattern = " ", replacement = "", separator)
     if (badstring %in% unlist(strsplit(gsub(
-      pattern = " ", replacement = "", badval_column
+      pattern = " ", replacement = "", bad_vector
     ), split = separator)) == FALSE) {
       return(message("Pattern not found. Check spelling of input."))
     }
     # positive cases
     vector_string <-
-      badval_column[grep(pattern = badstring, x = badval_column)]
+      bad_vector[grep(pattern = badstring, x = bad_vector)]
     if (length(vector_string) == 0) {
       return(warning("Pattern not found. Check spelling of input"))
     }
@@ -57,16 +63,19 @@ badindex_rm <-
     # Add separator as specified
     beauty_output <-
       gsub(pattern = separator, replacement = separator_inout, beauty_output)
-    # edit the badval_column
-    badval_column[grep(pattern = badstring, x = badval_column)] <-
+    # edit the bad_vector
+    bad_vector[grep(pattern = badstring, x = bad_vector)] <-
       beauty_output
-    if (isTRUE(any(badval_column == ""))) {
-      badval_column[which(badval_column == "")] <- NA
+    if (isTRUE(any(bad_vector == ""))) {
+      bad_vector[which(bad_vector == "")] <- NA
     }
+
+    bad_vector_summarize <- bad_vector[!is.na(bad_vector)]
+
     message("\nThe following bad values are left:",
             paste(unique(unlist(
               strsplit(gsub(
-                pattern = " ", replacement = "", badval_column
+                pattern = " ", replacement = "", bad_vector_summarize
               ), split = separator)
             )), collapse = ", "),
             "\n")
@@ -74,5 +83,6 @@ badindex_rm <-
     badstring_exist(data, badindex, separator)
 
     # return badval_column
+    badval_column[subset] <- bad_vector
     return(badval_column)
   }
