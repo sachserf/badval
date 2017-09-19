@@ -22,7 +22,7 @@
 badindex_add <-
   function(data,
            subset,
-           badindex,
+           badindex = "BADVAL",
            badstring,
            override_NA = TRUE,
            separator = ", ") {
