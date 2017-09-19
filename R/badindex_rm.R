@@ -7,7 +7,7 @@
 #' @export
 
 badindex_rm <-
-  function(data, subset, badindex = "BADVAL", badstring, separator = ", ") {
+  function(data, subset, badstring, badindex = "BADVAL", separator = ", ") {
     badval_column <- data[, badindex]
     # convert to character
     badval_column <- as.character(badval_column)

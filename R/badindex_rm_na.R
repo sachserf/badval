@@ -8,8 +8,8 @@
 
 badindex_rm_na <-
   function(data,
-           badindex = "BADVAL",
            badstring = NULL,
+           badindex = "BADVAL",
            separator = ",") {
     badval_column <- data[, badindex]
     if (missing(badstring)) {

@@ -4,18 +4,18 @@
 \alias{badvalue_backup}
 \title{Backup bad values}
 \usage{
-badvalue_backup(data, badindex = "BADVAL", badpattern, badstring)
+badvalue_backup(data, badstring, badpattern, badindex = "BADVAL")
 }
 \arguments{
 \item{data}{A data frame containing a column with an index of bad values.}
 
-\item{badindex}{Character. Name of a column of the data frame that serves as an
-index for bad values.}
+\item{badstring}{Character. Specify the text for indexing (i.e. the names of columns that contain bad values).}
 
 \item{badpattern}{Character. Specify a pattern of bad values to clean
 multiple (but not all) columns of your data frame.}
 
-\item{badstring}{Character. Specify the text for indexing (i.e. the names of columns that contain bad values).}
+\item{badindex}{Character. Name of a column of the data frame that serves as an
+index for bad values.}
 }
 \value{
 data frame

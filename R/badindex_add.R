@@ -22,8 +22,8 @@
 badindex_add <-
   function(data,
            subset,
-           badindex = "BADVAL",
            badstring,
+           badindex = "BADVAL",
            override_NA = TRUE,
            separator = ", ") {
     if (!badindex %in% names(data)) {
