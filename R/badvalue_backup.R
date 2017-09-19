@@ -2,28 +2,29 @@
 #'
 #' @description This function will backup the specified bad values of a data
 #'   frame.
-#' @inheritParams badval_rm_data
-#' @inheritParams badval_add_index
+#' @inheritParams badindex_add
+#' @inheritParams badvalue_rm
 #' @return data frame
 #' @author Frederik Sachser
-#' @seealso \code{\link{badval_restore}}
+#' @seealso \code{\link{badvalue_restore}}
 #' @export
 
-badval_backup <- function(data, badval_column, badval_pattern, badval_exactly) {
+badvalue_backup <- function(data, badindex, badpattern, badstring) {
+  badval_column <- data[, badindex]
   thenames <- names(data)
-  if (missing(badval_pattern)) {
-    if (missing(badval_exactly)) {
+  if (missing(badpattern)) {
+    if (missing(badstring)) {
       the_index <- seq_along(thenames)
     } else {
-      the_index <- which(thenames == badval_exactly)
+      the_index <- which(thenames == badstring)
       if (length(the_index) != 1) {
-        return(warning("badval_exactly not found. Check spelling."))
+        return(warning("badstring not found. Check spelling."))
       }
     }
   } else {
-    the_index <- grep(pattern = badval_pattern, x = thenames)
+    the_index <- grep(pattern = badpattern, x = thenames)
     if (length(the_index) == 0) {
-      return(warning("badval_pattern not found. Check spelling."))
+      return(warning("badpattern not found. Check spelling."))
     }
   }
 

@@ -2,33 +2,32 @@
 #'
 #' @description This function will remove cells of a data frame, that have bad
 #'   values.
-#' @inheritParams badval_add_index
-#' @param data A data frame containing a column with an index of bad values.
-#' @param badval_pattern Character. Specify a pattern of bad values to clean
+#' @inheritParams badindex_add
+#' @param badpattern Character. Specify a pattern of bad values to clean
 #'   multiple (but not all) columns of your data frame.
-#' @param badval_exactly Character. Specify an exact string to clean only one
+#' @param badstring Character. Specify an exact string to clean only one
 #'   single column of your data frame.
 #' @return data frame
 #' @author Frederik Sachser
-#' @seealso \code{\link{badval_add_index}}, \code{\link{badval_rm_index}}
+#' @seealso \code{\link{badindex_add}}, \code{\link{badindex_rm}}
 #' @export
 
-
-badval_rm_data <- function(data, badval_column, badval_pattern, badval_exactly) {
+badvalue_rm <- function(data, badindex, badpattern, badstring) {
+  badval_column <- data[, badindex]
   thenames <- names(data)
-  if (missing(badval_pattern)) {
-    if (missing(badval_exactly)) {
+  if (missing(badpattern)) {
+    if (missing(badstring)) {
       the_index <- seq_along(thenames)
     } else {
-      the_index <- which(thenames == badval_exactly)
+      the_index <- which(thenames == badstring)
       if (length(the_index) != 1) {
-        return(warning("badval_exactly not found. Check spelling."))
+        return(warning("badstring not found. Check spelling."))
       }
     }
   } else {
-    the_index <- grep(pattern = badval_pattern, x = thenames)
+    the_index <- grep(pattern = badpattern, x = thenames)
     if (length(the_index) == 0) {
-      return(warning("badval_pattern not found. Check spelling."))
+      return(warning("badpattern not found. Check spelling."))
     }
   }
 
