@@ -4,22 +4,11 @@
 \alias{badindex_rm}
 \title{Remove bad values from the index}
 \usage{
-<<<<<<< HEAD
-badindex_rm(data, badindex, badstring, separator = ", ")
-=======
 badindex_rm(data, subset, badstring, badindex = "BADVAL", separator = ", ")
->>>>>>> rewrite
 }
 \arguments{
 \item{data}{A data frame containing a column with an index of bad values.}
 
-<<<<<<< HEAD
-\item{badindex}{Character. Name of a column of the data frame that serves as an
-index for bad values.}
-
-\item{badstring}{Character. Specify the text for indexing (i.e. the names of columns that contain bad values).}
-
-=======
 \item{subset}{Integer. A vector specifying the rows that contain bad
 values.}
 
@@ -28,7 +17,6 @@ values.}
 \item{badindex}{Character. Name of a column of the data frame that serves as an
 index for bad values.}
 
->>>>>>> rewrite
 \item{separator}{Character. Specify the separator between the text. It is not
 advisable to use '|'.}
 }

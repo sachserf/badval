@@ -22,12 +22,6 @@
 badindex_add <-
   function(data,
            subset,
-<<<<<<< HEAD:R/badindex_add.R
-           badindex,
-           badstring,
-           override_NA = TRUE,
-           separator = ", ") {
-=======
            badstring,
            badindex = "BADVAL",
            override_NA = TRUE,
@@ -35,7 +29,6 @@ badindex_add <-
     if (!badindex %in% names(data)) {
       data[, badindex] <- NA
     }
->>>>>>> rewrite:R/badindex_add.R
     badval_column <- data[, badindex]
     separator_inout <- separator
     # remove spaces

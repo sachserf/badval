@@ -9,11 +9,7 @@
 #' @seealso \code{\link{badvalue_restore}}
 #' @export
 
-<<<<<<< HEAD:R/badvalue_backup.R
-badvalue_backup <- function(data, badindex, badpattern, badstring) {
-=======
 badvalue_backup <- function(data, badstring, badpattern, badindex = "BADVAL") {
->>>>>>> rewrite:R/badvalue_backup.R
   badval_column <- data[, badindex]
   thenames <- names(data)
   if (missing(badpattern)) {

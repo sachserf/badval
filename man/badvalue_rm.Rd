@@ -4,33 +4,19 @@
 \alias{badvalue_rm}
 \title{Remove bad values from data}
 \usage{
-<<<<<<< HEAD
-badvalue_rm(data, badindex, badpattern, badstring)
-=======
 badvalue_rm(data, badstring, badpattern, badindex = "BADVAL")
->>>>>>> rewrite
 }
 \arguments{
 \item{data}{A data frame containing a column with an index of bad values.}
 
-<<<<<<< HEAD
-\item{badindex}{Character. Name of a column of the data frame that serves as an
-index for bad values.}
-=======
 \item{badstring}{Character. Specify an exact string to clean only one
 single column of your data frame.}
->>>>>>> rewrite
 
 \item{badpattern}{Character. Specify a pattern of bad values to clean
 multiple (but not all) columns of your data frame.}
 
-<<<<<<< HEAD
-\item{badstring}{Character. Specify an exact string to clean only one
-single column of your data frame.}
-=======
 \item{badindex}{Character. Name of a column of the data frame that serves as an
 index for bad values.}
->>>>>>> rewrite
 }
 \value{
 data frame
