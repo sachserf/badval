@@ -7,7 +7,11 @@
 #' @note The function won´t work with spaces in column names.
 #' @export
 
+<<<<<<< HEAD
 badindex_rm_sep <- function(data, badindex, separator = ", ") {
+=======
+badindex_rm_sep <- function(data, badindex = "BADVAL", separator = ", ") {
+>>>>>>> rewrite
   badval_column <- data[, badindex]
   separator_inout <- separator
   separator <- gsub(" ", "", separator)

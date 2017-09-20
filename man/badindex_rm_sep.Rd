@@ -4,7 +4,11 @@
 \alias{badindex_rm_sep}
 \title{Clean badindex - remove unnecessary separators}
 \usage{
+<<<<<<< HEAD
 badindex_rm_sep(data, badindex, separator = ", ")
+=======
+badindex_rm_sep(data, badindex = "BADVAL", separator = ", ")
+>>>>>>> rewrite
 }
 \arguments{
 \item{data}{A data frame containing a column with an index of bad values.}

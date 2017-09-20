@@ -4,16 +4,29 @@
 \alias{badindex_rm_na}
 \title{Remove badstring if is.na(badvalue)}
 \usage{
+<<<<<<< HEAD
 badindex_rm_na(data, badindex, badstring = NULL, separator = ",")
+=======
+badindex_rm_na(data, badstring = NULL, badindex = "BADVAL",
+  separator = ",")
+>>>>>>> rewrite
 }
 \arguments{
 \item{data}{A data frame containing a column with an index of bad values.}
 
+<<<<<<< HEAD
 \item{badindex}{Character. Name of a column of the data frame that serves as an
 index for bad values.}
 
 \item{badstring}{Character. Specify the text for indexing (i.e. the names of columns that contain bad values).}
 
+=======
+\item{badstring}{Character. Specify the text for indexing (i.e. the names of columns that contain bad values).}
+
+\item{badindex}{Character. Name of a column of the data frame that serves as an
+index for bad values.}
+
+>>>>>>> rewrite
 \item{separator}{Character. Specify the separator between the text. It is not
 advisable to use '|'.}
 }

@@ -4,7 +4,11 @@
 \alias{badstring_exist}
 \title{Check badindex - find misspelled badstrings.}
 \usage{
+<<<<<<< HEAD
 badstring_exist(data, badindex, separator = ", ")
+=======
+badstring_exist(data, badindex = "BADVAL", separator = ", ")
+>>>>>>> rewrite
 }
 \arguments{
 \item{data}{A data frame containing a column with an index of bad values.}
