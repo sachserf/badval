@@ -71,11 +71,17 @@ badindex_rm <-
     }
 
     bad_vector_summarize <- bad_vector[!is.na(bad_vector)]
+    bad_vector_summarize_all <- badval_column[!is.na(badval_column)]
 
-    message("\nThe following bad values are left:",
+    message("\nThe following bad values are left: \n- changed fields: ",
             paste(unique(unlist(
               strsplit(gsub(
                 pattern = " ", replacement = "", bad_vector_summarize
+              ), split = separator)
+            )), collapse = ", "),
+            "\n- all fields: ",paste(unique(unlist(
+              strsplit(gsub(
+                pattern = " ", replacement = "", bad_vector_summarize_all
               ), split = separator)
             )), collapse = ", "),
             "\n")
@@ -84,5 +90,5 @@ badindex_rm <-
 
     # return badval_column
     badval_column[subset] <- bad_vector
-    return(badval_column)
+    invisible(badval_column)
   }
