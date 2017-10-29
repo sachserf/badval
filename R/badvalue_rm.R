@@ -13,6 +13,7 @@
 #' @export
 
 badvalue_rm <- function(data, badstring, badpattern, badindex = "BADVAL") {
+  data <- as.data.frame(data)
   badval_column <- data[, badindex]
   thenames <- names(data)
   if (missing(badpattern)) {
