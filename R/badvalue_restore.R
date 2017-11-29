@@ -16,6 +16,8 @@
 badvalue_restore <- function(goodstring,
                              backup_data,
                              cleaned_data) {
+  backup_data <- as.data.frame(backup_data)
+  cleaned_data <- as.data.frame(cleaned_data)
   if (any(is.na(backup_data[goodstring]) == FALSE) == TRUE) {
     vec <- which(is.na(backup_data[goodstring]) == FALSE)
     ID_backup <- row.names(backup_data[vec,])

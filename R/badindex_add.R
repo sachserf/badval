@@ -29,7 +29,8 @@ badindex_add <-
     if (!badindex %in% names(data)) {
       data[, badindex] <- NA
     }
-    badval_column <- as.data.frame(data)[, badindex] # as.data.frame to work with tibbles as well
+    data <- as.data.frame(data)
+    badval_column <- data[, badindex]
     separator_inout <- separator
     # remove spaces
     separator <- gsub(pattern = " ", replacement = "", separator)

@@ -9,6 +9,7 @@
 
 badstring_exist <-
   function(data, badindex = "BADVAL", separator = ", ") {
+    data <- as.data.frame(data)
     badval_column <- data[, badindex]
     colnames <- names(data)
     separator <- gsub(" ", "", separator)

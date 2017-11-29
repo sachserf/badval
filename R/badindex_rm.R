@@ -8,6 +8,7 @@
 
 badindex_rm <-
   function(data, subset, badstring, badindex = "BADVAL", separator = ", ") {
+    data <- as.data.frame(data)
     badval_column <- data[, badindex]
     # convert to character
     badval_column <- as.character(badval_column)

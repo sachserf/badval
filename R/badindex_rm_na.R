@@ -11,6 +11,7 @@ badindex_rm_na <-
            badstring = NULL,
            badindex = "BADVAL",
            separator = ",") {
+    data <- as.data.frame(data)
     badval_column <- data[, badindex]
     if (missing(badstring)) {
       badstring <- badstring_exist(data, badindex, separator)$exist

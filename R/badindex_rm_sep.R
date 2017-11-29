@@ -8,6 +8,7 @@
 #' @export
 
 badindex_rm_sep <- function(data, badindex = "BADVAL", separator = ", ") {
+  data <- as.data.frame(data)
   badval_column <- data[, badindex]
   separator_inout <- separator
   separator <- gsub(" ", "", separator)
