@@ -25,13 +25,15 @@ badindex_rm <-
     if (badstring %in% unlist(strsplit(gsub(
       pattern = " ", replacement = "", bad_vector
     ), split = separator)) == FALSE) {
-      return(message("Pattern not found. Check spelling of input."))
+      message("Pattern not found. Check spelling of input.")
+      invisible(badval_column)
     }
     # positive cases
     vector_string <-
       bad_vector[grep(pattern = badstring, x = bad_vector)]
     if (length(vector_string) == 0) {
-      return(warning("Pattern not found. Check spelling of input"))
+      warning("Pattern not found. Check spelling of input")
+      invisible(badval_column)
     }
     # remove spaces
     vector_string <- gsub(pattern = " ",
