@@ -1,6 +1,6 @@
 Package: badval
 Title: Reproducible data manipulation
-Version: 0.0.1.5003
+Version: 0.0.1.5004
 Authors@R: person("Frederik", "Sachser", email = "f.sachser@gmx.at", role = c("aut", "cre"))
 Description: The package should facilitate the process of data manipulation in a
     reproducible and traceable manner.
