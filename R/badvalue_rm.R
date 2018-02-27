@@ -36,9 +36,9 @@ badvalue_rm <- function(data, badstring, badpattern, badindex = "BADVAL") {
     badrow <- grep(pattern = thenames[i], x = badval_column)
     if (length(badrow) > 0) {
       data[badrow, i] <- NA
-      message("Replaced", length(badrow), "values in column", thenames[i], "\n")
+      message("Replaced ", length(badrow), " values in column ", thenames[i], "\n")
     } else {
-      message("No matches in column", thenames[i], "\n")
+      message("No matches in column ", thenames[i], "\n")
     }
   }
   return(data)
